@@ -16,7 +16,7 @@
 
 
     <build>
-        <finalName>managePerson</finalName>
+        <finalName>hibernate-test</finalName>
 
         <plugins>
 

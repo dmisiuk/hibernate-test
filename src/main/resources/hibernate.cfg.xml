@@ -9,7 +9,7 @@
             com.mysql.jdbc.Driver
         </property>
         <property name="hibernate.connection.url">
-            jdbc:oracle:thin:@localhost:1521:xe
+            jdbc:mysql://localhost:3306/menuapp
         </property>
         <property name="hibernate.connection.username">
             ivan

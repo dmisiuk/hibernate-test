@@ -8,4 +8,8 @@ package by.minsler.hibernate;
  * To change this template use File | Settings | File Templates.
  */
 public class Main {
+
+    public static void main(String[] args) {
+        System.out.println("it works");
+    }
 }

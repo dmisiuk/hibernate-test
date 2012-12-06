@@ -3,7 +3,7 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="by.academy.it.pojos.Person" table="T_PERSON">
+    <class name="by.minsler.hibernate.bean.Person" table="T_PERSON">
         <id name="id" type="int" column="F_ID">
             <generator class="sequence">
                 <param name="sequence">T_PERSON_SEQ</param>
