@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="by.academy.it.pojos.Person" table="T_PERSON">
+        <id name="id" type="int" column="F_ID">
+            <generator class="sequence">
+                <param name="sequence">T_PERSON_SEQ</param>
+            </generator>
+        </id>
+        <property name="name" column="F_NAME" type="string"/>
+        <property name="surname" column="F_SURNAME" type="string"/>
+        <property name="age" column="F_AGE" type="int"/>
+    </class>
+</hibernate-mapping>
