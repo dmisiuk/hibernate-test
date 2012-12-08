@@ -1,9 +1,9 @@
 package by.minsler.hibernate;
 
 import by.minsler.hibernate.bean.Person;
-import by.minsler.hibernate.util.HibernateUtil;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
+import by.minsler.hibernate.dao.BaseDao;
+import by.minsler.hibernate.dao.Dao;
+import by.minsler.hibernate.dao.DaoException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,10 +19,15 @@ import java.util.List;
  */
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    private Dao dao;
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+    public Main() {
+        dao = new BaseDao(Person.class);
+    }
 
+    public static void main(String[] args) throws IOException, DaoException {
+
+        Main m = new Main();
 
         System.out.println("Maven + Hibernate + Mysql");
 
@@ -46,35 +51,33 @@ public class Main {
             System.out.println(menu);
             operation = bufferRead.readLine();
             if ("c".equals(operation)) {
-                createPerson(bufferRead, session);
+                m.createPerson(bufferRead);
                 continue;
             }
             if ("a".equals(operation)) {
-                readAllPersons(session);
+                m.readAllPersons();
                 continue;
             }
 
             if ("d".equals(operation)) {
-                deletePerson(bufferRead, session);
+                m.deletePerson(bufferRead);
                 continue;
             }
 
             if ("r".equals(operation)) {
-                readPerson(bufferRead, session);
+                m.readPerson(bufferRead);
                 continue;
             }
 
             if ("u".equals(operation)) {
-                updatePerson(bufferRead, session);
+                m.updatePerson(bufferRead);
                 continue;
             }
 
         }
     }
 
-    private static void updatePerson(BufferedReader br, Session session) throws IOException {
-        session.beginTransaction();
-
+    private void updatePerson(BufferedReader br) throws IOException, DaoException {
         System.out.println("please enter new person attribute(id,name, surname,age) separated by comma \n" +
                 "example: 3,dzmitry,misiuk,25");
 
@@ -86,38 +89,16 @@ public class Main {
         }
 
         Integer id = Integer.parseInt(atr[0]);
-
-        Person person = (Person) session.get(Person.class, id);
-        System.out.println(person);
+        Person person = new Person();
 
         person.setName(atr[1]);
         person.setSurname(atr[2]);
         person.setAge(Integer.valueOf(atr[3]));
+        dao.update(person);
         System.out.println(person);
-        session.update(person);
-        session.getTransaction().commit();
     }
 
-    private static void deletePerson(BufferedReader br, Session session) throws IOException {
-        session.beginTransaction();
-        System.out.println("please enter id of person  \n" +
-                "example: 2");
-
-        String idString = br.readLine();
-        Integer id = Integer.valueOf(idString.trim());
-
-
-        Person person = (Person) session.get(Person.class, id);
-
-        System.out.println(person);
-
-        session.delete(person);
-
-        session.getTransaction().commit();
-    }
-
-    private static void readPerson(BufferedReader br, Session session) throws IOException {
-        session.beginTransaction();
+    private void deletePerson(BufferedReader br) throws IOException, DaoException {
 
         System.out.println("please enter id of person  \n" +
                 "example: 2");
@@ -125,31 +106,31 @@ public class Main {
         String idString = br.readLine();
         Integer id = Integer.valueOf(idString.trim());
 
-        Person person = (Person) session.get(Person.class, id);
+        dao.delete(id);
 
-        System.out.println(person);
-
-        session.getTransaction().commit();
     }
 
-    private static void readAllPersons(Session session) {
-        session.beginTransaction();
+    private void readPerson(BufferedReader br) throws IOException, DaoException {
 
-        Criteria criteria = session.createCriteria(Person.class);
+        System.out.println("please enter id of person  \n" +
+                "example: 2");
 
-        List<Person> persons = criteria.list();
+        String idString = br.readLine();
+        Integer id = Integer.valueOf(idString.trim());
+        Person person = (Person) dao.read(id);
+
+        System.out.println(person);
+    }
+
+    private void readAllPersons() throws DaoException {
+        List<Person> persons = (List<Person>) dao.readAll();
         for (Person p : persons) {
             System.out.println(p);
         }
-
-        session.getTransaction().commit();
     }
 
 
-    private static void createPerson(BufferedReader br, Session session) throws IOException {
-
-        session.beginTransaction();
-
+    private void createPerson(BufferedReader br) throws IOException, DaoException {
         Person person = new Person();
 
         System.out.println("please enter person attribute(name, surname,age) separated by comma \n" +
@@ -158,12 +139,9 @@ public class Main {
         String personString = br.readLine();
         String atr[] = personString.split("\\s*,\\s*");
 
-
         person.setName(atr[0]);
         person.setSurname(atr[1]);
         person.setAge(Integer.parseInt(atr[2]));
-        session.save(person);
-
-        session.getTransaction().commit();
+        dao.create(person);
     }
 }

@@ -1,16 +1,21 @@
 package by.minsler.hibernate.util;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 public class HibernateUtil {
 
-    private static final SessionFactory sessionFactory = buildSessionFactory();
+    private SessionFactory sf;
 
-    private static SessionFactory buildSessionFactory() {
+    private final ThreadLocal sessions = new ThreadLocal();
+
+    private static HibernateUtil inst = new HibernateUtil();
+
+    private HibernateUtil() throws ExceptionInInitializerError {
         try {
             // Create the SessionFactory from hibernate.cfg.xml
-            return new Configuration().configure().buildSessionFactory();
+            this.sf = new Configuration().configure().buildSessionFactory();
         } catch (Throwable ex) {
             // Make sure you log the exception, as it might be swallowed
             System.err.println("Initial SessionFactory creation failed." + ex);
@@ -18,13 +23,16 @@ public class HibernateUtil {
         }
     }
 
-    public static SessionFactory getSessionFactory() {
-        return sessionFactory;
+    public static HibernateUtil getInst() {
+        return inst;
     }
 
-    public static void shutdown() {
-        // Close caches and connection pools
-        getSessionFactory().close();
+    public Session getSession() {
+        Session session = (Session) sessions.get();
+        if (session == null) {
+            sessions.set(session);
+        }
+        return sf.openSession();
     }
 
 }
