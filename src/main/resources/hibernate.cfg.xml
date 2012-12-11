@@ -30,5 +30,6 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <!-- Mapping files -->
         <mapping resource="Person.hbm.xml"/>
+        <mapping resource="Product.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

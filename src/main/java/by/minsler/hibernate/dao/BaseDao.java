@@ -53,6 +53,21 @@ public class BaseDao<T> implements Dao<T> {
     }
 
     @Override
+    public T load(Integer id) throws DaoException {
+        Session session = util.getSession();
+        Transaction tr = session.beginTransaction();
+        T t;
+        try {
+            t = (T) session.load(cl, id);
+            tr.commit();
+        } catch (HibernateException he) {
+            tr.rollback();
+            throw new DaoException(he);
+        }
+        return t;
+    }
+
+    @Override
     public T update(T transientObject) throws DaoException {
         Session session = util.getSession();
         Transaction tr = session.beginTransaction();

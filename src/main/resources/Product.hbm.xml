@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="by.minsler.hibernate.bean.Product" table="T_PRODUCT">
+        <id name="id" type="int" column="F_ID">
+            <!--<generator class="native">-->
+            <!--</generator>-->
+        </id>
+        <property name="name" column="F_NAME" type="string"/>
+    </class>
+</hibernate-mapping>

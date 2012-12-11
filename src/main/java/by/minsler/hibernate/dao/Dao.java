@@ -13,6 +13,8 @@ public interface Dao<T> {
 
     T read(Integer id) throws DaoException;
 
+    T load(Integer id) throws DaoException;
+
     T update(T transientObject) throws DaoException;
 
     void delete(Integer id) throws DaoException;

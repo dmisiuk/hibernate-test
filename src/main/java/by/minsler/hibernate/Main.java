@@ -1,6 +1,7 @@
 package by.minsler.hibernate;
 
 import by.minsler.hibernate.bean.Person;
+import by.minsler.hibernate.bean.Product;
 import by.minsler.hibernate.dao.BaseDao;
 import by.minsler.hibernate.dao.Dao;
 import by.minsler.hibernate.dao.DaoException;
@@ -20,9 +21,11 @@ import java.util.List;
 public class Main {
 
     private Dao dao;
+    private Dao productDao;
 
     public Main() {
         dao = new BaseDao(Person.class);
+        productDao = new BaseDao(Product.class);
     }
 
     public static void main(String[] args) throws IOException, DaoException {
@@ -39,6 +42,9 @@ public class Main {
                 "u - for update person\n" +
                 "d - for delete person by id\n" +
                 "a - for read all persons\n" +
+                "l - for load person by id\n" +
+                "cp - for crate product\n" +
+                "ap - for read all product\n" +
                 "e - for exit";
 
         String operation = null;
@@ -69,12 +75,38 @@ public class Main {
                 continue;
             }
 
+            if ("l".equals(operation)) {
+                m.loadPerson(bufferRead);
+                continue;
+            }
+
             if ("u".equals(operation)) {
                 m.updatePerson(bufferRead);
                 continue;
             }
+            if ("cp".equals(operation)) {
+                m.createProduct(bufferRead);
+                continue;
+            }
+            if ("ap".equals(operation)) {
+                m.readAllProducts();
+                continue;
+            }
+
 
         }
+    }
+
+    private void loadPerson(BufferedReader br) throws IOException, DaoException {
+        System.out.println("please enter id of person  \n" +
+                "example: 2");
+
+        String idString = br.readLine();
+        Integer id = Integer.valueOf(idString.trim());
+        Person person = (Person) dao.load(id);
+
+        System.out.println(person);
+
     }
 
     private void updatePerson(BufferedReader br) throws IOException, DaoException {
@@ -129,6 +161,13 @@ public class Main {
         }
     }
 
+    private void readAllProducts() throws DaoException {
+        List<Product> products = (List<Product>) productDao.readAll();
+        for (Product p : products) {
+            System.out.println(p);
+        }
+    }
+
 
     private void createPerson(BufferedReader br) throws IOException, DaoException {
         Person person = new Person();
@@ -143,5 +182,19 @@ public class Main {
         person.setSurname(atr[1]);
         person.setAge(Integer.parseInt(atr[2]));
         dao.create(person);
+    }
+
+    private void createProduct(BufferedReader br) throws IOException, DaoException {
+        Product person = new Product();
+
+        System.out.println("please enter product attribute(id,name) separated by comma \n" +
+                "example: 25,bag");
+
+        String productString = br.readLine();
+        String atr[] = productString.split("\\s*,\\s*");
+
+        person.setId(Integer.parseInt(atr[0]));
+        person.setName(atr[1]);
+        productDao.create(person);
     }
 }
