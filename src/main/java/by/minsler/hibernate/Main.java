@@ -43,6 +43,7 @@ public class Main {
                 "d - for delete person by id\n" +
                 "a - for read all persons\n" +
                 "l - for load person by id\n" +
+                "cd - for create and delete just\n" +
                 "cp - for crate product\n" +
                 "ap - for read all product\n" +
                 "e - for exit";
@@ -90,6 +91,11 @@ public class Main {
             }
             if ("ap".equals(operation)) {
                 m.readAllProducts();
+                continue;
+            }
+
+            if ("cd".equals(operation)) {
+                m.createDeletePerson(bufferRead);
                 continue;
             }
 
@@ -182,6 +188,22 @@ public class Main {
         person.setSurname(atr[1]);
         person.setAge(Integer.parseInt(atr[2]));
         dao.create(person);
+    }
+
+
+    private void createDeletePerson(BufferedReader br) throws IOException, DaoException {
+        Person person = new Person();
+
+        System.out.println("please enter person attribute(name, surname,age) separated by comma \n" +
+                "example: dzmitry,misiuk,25");
+
+        String personString = br.readLine();
+        String atr[] = personString.split("\\s*,\\s*");
+
+        person.setName(atr[0]);
+        person.setSurname(atr[1]);
+        person.setAge(Integer.parseInt(atr[2]));
+        dao.createDelete(person);
     }
 
     private void createProduct(BufferedReader br) throws IOException, DaoException {

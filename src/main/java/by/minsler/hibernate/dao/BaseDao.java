@@ -108,4 +108,19 @@ public class BaseDao<T> implements Dao<T> {
         }
         return list;
     }
+
+    @Override
+    public T createDelete(T transientObject) throws DaoException {
+        Session session = util.getSession();
+        Transaction tr = session.beginTransaction();
+        try {
+            session.save(transientObject);
+            session.delete(transientObject);
+            tr.commit();
+        } catch (HibernateException he) {
+            tr.rollback();
+            throw new DaoException(he);
+        }
+        return transientObject;
+    }
 }

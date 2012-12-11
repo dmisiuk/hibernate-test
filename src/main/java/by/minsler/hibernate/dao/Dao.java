@@ -21,4 +21,5 @@ public interface Dao<T> {
 
     List<T> readAll() throws DaoException;
 
+    T createDelete(T transientObject) throws DaoException;
 }
