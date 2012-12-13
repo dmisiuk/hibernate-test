@@ -3,15 +3,16 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="by.minsler.hibernate.bean.Product" table="T_PRODUCT" lazy="false">
+    <class name="by.minsler.hibernate.bean.Product" lazy="false">
         <id name="id" type="int" column="F_ID" access="property">
             <generator class="native">
             </generator>
         </id>
-        <property name="name" column="F_NAME" type="string" access="property"/>
-        <property name="length" column="F_LENGTH" access="field"/>
-        <property name="width" column="F_WIDTH" access="field"/>
-        <property name="height" column="F_HEIGHT" access="field"/>
-        <property name="volume" formula="F_WIDTH * F_LENGTH * F_HEIGHT" access="field"/>
+        <property name="name" type="string" access="property"/>
+        <property name="length" access="field"/>
+        <property name="width" access="field"/>
+        <property name="height" access="field"/>
+        <property name="volume" formula="FF_WIDTH * FF_LENGTH * FF_HEIGHT" access="field"/>
+        <property name="internalId" access="property" not-null="true"/>
     </class>
 </hibernate-mapping>

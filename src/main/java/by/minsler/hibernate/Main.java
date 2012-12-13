@@ -209,8 +209,8 @@ public class Main {
     private void createProduct(BufferedReader br) throws IOException, DaoException {
 
 
-        System.out.println("please enter product attribute(name,length, width, height) separated by comma \n" +
-                "example: bag,2,45,5");
+        System.out.println("please enter product attribute(name,length, width, height,internalId) separated by comma \n" +
+                "example: bag,2,45,5,27");
 
         String productString = br.readLine();
         String atr[] = productString.split("\\s*,\\s*");
@@ -219,7 +219,10 @@ public class Main {
         int length = Integer.parseInt(atr[1]);
         int width = Integer.parseInt(atr[2]);
         int heigth = Integer.parseInt(atr[3]);
+        int internalId = Integer.parseInt(atr[4]);
+
         Product person = new Product(name, width, length, heigth);
+        person.setInternalId(internalId);
 
         productDao.create(person);
     }
