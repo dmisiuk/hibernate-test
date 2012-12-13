@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 public class Product implements Serializable {
 
-    private Integer id;
+    private String id;
 
     private String name;
 
@@ -25,7 +25,7 @@ public class Product implements Serializable {
     }
 
 
-    public Product(Integer id, String name, Integer width, Integer length, Integer height, Integer volume) {
+    public Product(String id, String name, Integer width, Integer length, Integer height, Integer volume) {
         this.id = id;
         this.name = name;
         this.width = width;
@@ -41,11 +41,11 @@ public class Product implements Serializable {
         this.height = height;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
