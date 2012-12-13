@@ -2,14 +2,18 @@
 <!DOCTYPE hibernate-mapping PUBLIC
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping>
-    <class name="by.minsler.hibernate.bean.Person" table="T_PERSON">
-        <id name="id" type="int" column="F_ID">
+<hibernate-mapping
+        default-lazy="false"
+        default-cascade="all"
+        >
+    <class name="by.minsler.hibernate.bean.Person" table="T_PERSON" lazy="false" mutable="true">
+        <id name="id" type="int" column="F_ID" access="property">
             <generator class="native">
             </generator>
         </id>
-        <property name="name" column="F_NAME" type="string"/>
-        <property name="surname" column="F_SURNAME" type="string"/>
-        <property name="age" column="F_AGE" type="int"/>
+        <property name="name" column="F_NAME" type="string" access="property"/>
+        <property name="surname" column="F_SURNAME" type="string" access="property"/>
+        <property name="age" column="F_AGE" type="int" access="property"/>
     </class>
+
 </hibernate-mapping>

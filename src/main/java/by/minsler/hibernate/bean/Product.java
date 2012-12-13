@@ -15,7 +15,19 @@ public class Product implements Serializable {
 
     private String name;
 
+    private Integer width;
+    private Integer length;
+    private Integer height;
+    private Integer volume;
+
     public Product() {
+    }
+
+    public Product(String name, Integer width, Integer length, Integer height) {
+        this.name = name;
+        this.width = width;
+        this.length = length;
+        this.height = height;
     }
 
     public Integer getId() {
@@ -41,8 +53,12 @@ public class Product implements Serializable {
 
         Product product = (Product) o;
 
+        if (height != null ? !height.equals(product.height) : product.height != null) return false;
         if (id != null ? !id.equals(product.id) : product.id != null) return false;
+        if (length != null ? !length.equals(product.length) : product.length != null) return false;
         if (name != null ? !name.equals(product.name) : product.name != null) return false;
+        if (volume != null ? !volume.equals(product.volume) : product.volume != null) return false;
+        if (width != null ? !width.equals(product.width) : product.width != null) return false;
 
         return true;
     }
@@ -51,6 +67,10 @@ public class Product implements Serializable {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (width != null ? width.hashCode() : 0);
+        result = 31 * result + (length != null ? length.hashCode() : 0);
+        result = 31 * result + (height != null ? height.hashCode() : 0);
+        result = 31 * result + (volume != null ? volume.hashCode() : 0);
         return result;
     }
 
@@ -59,6 +79,10 @@ public class Product implements Serializable {
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", width=" + width +
+                ", length=" + length +
+                ", height=" + height +
+                ", volume=" + volume +
                 '}';
     }
 }

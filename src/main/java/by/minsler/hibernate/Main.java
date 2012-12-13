@@ -207,16 +207,20 @@ public class Main {
     }
 
     private void createProduct(BufferedReader br) throws IOException, DaoException {
-        Product person = new Product();
 
-        System.out.println("please enter product attribute(id,name) separated by comma \n" +
-                "example: 25,bag");
+
+        System.out.println("please enter product attribute(name,length, width, height) separated by comma \n" +
+                "example: bag,2,45,5");
 
         String productString = br.readLine();
         String atr[] = productString.split("\\s*,\\s*");
 
-        person.setId(Integer.parseInt(atr[0]));
-        person.setName(atr[1]);
+        String name = atr[0];
+        int length = Integer.parseInt(atr[1]);
+        int width = Integer.parseInt(atr[2]);
+        int heigth = Integer.parseInt(atr[3]);
+        Product person = new Product(name, width, length, heigth);
+
         productDao.create(person);
     }
 }
