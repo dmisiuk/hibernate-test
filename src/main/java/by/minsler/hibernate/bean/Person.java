@@ -19,6 +19,9 @@ public class Person implements Serializable {
 
     private Integer age;
 
+    private Address homeAddress;
+    private Address workAddress;
+
     public Person() {
     }
 
@@ -54,14 +57,21 @@ public class Person implements Serializable {
         this.age = age;
     }
 
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", age=" + age +
-                '}';
+
+    public Address getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
+    }
+
+    public Address getWorkAddress() {
+        return workAddress;
+    }
+
+    public void setWorkAddress(Address workAddress) {
+        this.workAddress = workAddress;
     }
 
     @Override
@@ -72,9 +82,11 @@ public class Person implements Serializable {
         Person person = (Person) o;
 
         if (age != null ? !age.equals(person.age) : person.age != null) return false;
+        if (homeAddress != null ? !homeAddress.equals(person.homeAddress) : person.homeAddress != null) return false;
         if (id != null ? !id.equals(person.id) : person.id != null) return false;
         if (name != null ? !name.equals(person.name) : person.name != null) return false;
         if (surname != null ? !surname.equals(person.surname) : person.surname != null) return false;
+        if (workAddress != null ? !workAddress.equals(person.workAddress) : person.workAddress != null) return false;
 
         return true;
     }
@@ -85,19 +97,21 @@ public class Person implements Serializable {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
         result = 31 * result + (age != null ? age.hashCode() : 0);
+        result = 31 * result + (homeAddress != null ? homeAddress.hashCode() : 0);
+        result = 31 * result + (workAddress != null ? workAddress.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", age=" + age +
+                ", homeAddress=" + homeAddress +
+                ", workAddress=" + workAddress +
+                '}';
     }
 }
 
-//
-//<hibernate-mapping>
-//<class name="by.academy.it.pojos.Person" table="T_PERSON">
-//<id name="id" type="int" column="F_ID">
-//<generator class="sequence">
-//<param name="sequence">T_PERSON_SEQ</param>
-//</generator>
-//</id>
-//<property name="name" column="F_NAME" type="string"/>
-//<property name="surname" column="F_SURNAME" type="string"/>
-//<property name="age" column="F_AGE" type="int"/>
-//</class>

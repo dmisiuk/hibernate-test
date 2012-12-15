@@ -1,5 +1,6 @@
 package by.minsler.hibernate;
 
+import by.minsler.hibernate.bean.Address;
 import by.minsler.hibernate.bean.Person;
 import by.minsler.hibernate.bean.Product;
 import by.minsler.hibernate.dao.BaseDao;
@@ -178,8 +179,8 @@ public class Main {
     private void createPerson(BufferedReader br) throws IOException, DaoException {
         Person person = new Person();
 
-        System.out.println("please enter person attribute(name, surname,age) separated by comma \n" +
-                "example: dzmitry,misiuk,25");
+        System.out.println("please enter person attribute(name, surname,age,home_sity, home_street, work_sity, work_street) separated by comma \n" +
+                "example: dzmitry,misiuk,25,minsk,lesnaia,minsk,skoriny");
 
         String personString = br.readLine();
         String atr[] = personString.split("\\s*,\\s*");
@@ -187,6 +188,17 @@ public class Main {
         person.setName(atr[0]);
         person.setSurname(atr[1]);
         person.setAge(Integer.parseInt(atr[2]));
+
+        Address homeAddress = new Address();
+        homeAddress.setCity(atr[3]);
+        homeAddress.setStreet(atr[4]);
+
+        Address workAddress = new Address();
+        workAddress.setCity(atr[5]);
+        workAddress.setStreet(atr[6]);
+
+        person.setHomeAddress(homeAddress);
+        person.setWorkAddress(workAddress);
         dao.create(person);
     }
 
