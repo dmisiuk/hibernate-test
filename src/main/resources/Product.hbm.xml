@@ -3,16 +3,26 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="by.minsler.hibernate.bean.Product" lazy="false">
+    <class name="by.minsler.hibernate.bean.Product" lazy="false" discriminator-value="product">
+
         <id name="id" column="F_ID" access="property">
             <generator class="uuid">
             </generator>
         </id>
+        <discriminator column="F_PRODUCT_TYPE" type="string"/>
         <property name="name" type="string" access="property"/>
-        <property name="length" access="field"/>
-        <property name="width" access="field"/>
-        <property name="height" access="field"/>
-        <property name="volume" formula="FF_WIDTH * FF_LENGTH * FF_HEIGHT" access="field"/>
+        <property name="length" access="property"/>
+        <property name="width" access="property"/>
+        <property name="height" access="property"/>
+        <property name="volume" formula="FF_WIDTH * FF_LENGTH * FF_HEIGHT" access="property"/>
         <property name="internalId" access="property" not-null="true"/>
+
+        <subclass name="by.minsler.hibernate.bean.Book" discriminator-value="book">
+            <property name="pages" access="property"/>
+        </subclass>
+        <subclass name="by.minsler.hibernate.bean.Pen" discriminator-value="pen">
+            <property name="color" access="property"/>
+        </subclass>
+
     </class>
 </hibernate-mapping>

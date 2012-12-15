@@ -65,6 +65,39 @@ public class Product implements Serializable {
         this.internalId = internalId;
     }
 
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
+
+    public Integer getLength() {
+        return length;
+    }
+
+    public void setLength(Integer length) {
+        this.length = length;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
+    public Integer getVolume() {
+        return volume;
+    }
+
+    public void setVolume(Integer volume) {
+        this.volume = volume;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

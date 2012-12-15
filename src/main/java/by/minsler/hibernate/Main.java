@@ -1,8 +1,6 @@
 package by.minsler.hibernate;
 
-import by.minsler.hibernate.bean.Address;
-import by.minsler.hibernate.bean.Person;
-import by.minsler.hibernate.bean.Product;
+import by.minsler.hibernate.bean.*;
 import by.minsler.hibernate.dao.BaseDao;
 import by.minsler.hibernate.dao.Dao;
 import by.minsler.hibernate.dao.DaoException;
@@ -23,10 +21,14 @@ public class Main {
 
     private Dao dao;
     private Dao productDao;
+    private Dao penDao;
+    private Dao bookDao;
 
     public Main() {
         dao = new BaseDao(Person.class);
         productDao = new BaseDao(Product.class);
+        penDao = new BaseDao(Pen.class);
+        bookDao = new BaseDao(Book.class);
     }
 
     public static void main(String[] args) throws IOException, DaoException {
@@ -46,6 +48,8 @@ public class Main {
                 "l - for load person by id\n" +
                 "cd - for create and delete just\n" +
                 "cp - for crate product\n" +
+                "cpen - for create pen\n" +
+                "cbook - for create book\n" +
                 "ap - for read all product\n" +
                 "e - for exit";
 
@@ -90,6 +94,16 @@ public class Main {
                 m.createProduct(bufferRead);
                 continue;
             }
+            if ("cpen".equals(operation)) {
+                m.createPen(bufferRead);
+                continue;
+            }
+
+            if ("cbook".equals(operation)) {
+                m.createBook(bufferRead);
+                continue;
+            }
+
             if ("ap".equals(operation)) {
                 m.readAllProducts();
                 continue;
@@ -103,6 +117,7 @@ public class Main {
 
         }
     }
+
 
     private void loadPerson(BufferedReader br) throws IOException, DaoException {
         System.out.println("please enter id of person  \n" +
@@ -233,9 +248,61 @@ public class Main {
         int heigth = Integer.parseInt(atr[3]);
         int internalId = Integer.parseInt(atr[4]);
 
-        Product person = new Product(name, width, length, heigth);
-        person.setInternalId(internalId);
+        Product product = new Product(name, width, length, heigth);
+        product.setInternalId(internalId);
 
-        productDao.create(person);
+        productDao.create(product);
+    }
+
+    private void createPen(BufferedReader bufferRead) throws IOException, DaoException {
+        System.out.println("please enter product attribute(name,length, width, height,internalId,color) separated by comma \n" +
+                "example: pen,2,45,5,27,grey");
+
+        String productString = bufferRead.readLine();
+        String atr[] = productString.split("\\s*,\\s*");
+
+        String name = atr[0];
+        int length = Integer.parseInt(atr[1]);
+        int width = Integer.parseInt(atr[2]);
+        int heigth = Integer.parseInt(atr[3]);
+        int internalId = Integer.parseInt(atr[4]);
+        String color = atr[5];
+
+        Pen pen = new Pen();
+        pen.setName(name);
+        pen.setLength(length);
+        pen.setWidth(width);
+        pen.setHeight(heigth);
+        pen.setInternalId(internalId);
+        pen.setColor(color);
+
+
+        penDao.create(pen);
+    }
+
+    private void createBook(BufferedReader bufferRead) throws IOException, DaoException {
+        System.out.println("please enter product attribute(name,length, width, height,internalId,pages) separated by comma \n" +
+                "example: hobbit,2,45,5,27,1022");
+
+        String productString = bufferRead.readLine();
+        String atr[] = productString.split("\\s*,\\s*");
+
+        String name = atr[0];
+        int length = Integer.parseInt(atr[1]);
+        int width = Integer.parseInt(atr[2]);
+        int heigth = Integer.parseInt(atr[3]);
+        int internalId = Integer.parseInt(atr[4]);
+        int pages = Integer.parseInt(atr[5]);
+
+        Book book = new Book();
+        book.setName(name);
+        book.setLength(length);
+        book.setWidth(width);
+        book.setHeight(heigth);
+        book.setInternalId(internalId);
+        book.setPages(pages);
+
+        bookDao.create(book);
+
     }
 }
