@@ -50,10 +50,13 @@
         </property>
         <property name="hibernate.connection.pool_size">10</property>
         <property name="show_sql">true</property>
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.hbm2ddl.auto">create-drop</property>
         <!-- Mapping files -->
         <mapping resource="Person.hbm.xml"/>
         <mapping resource="Product.hbm.xml"/>
+        <mapping resource="Passport.hbm.xml"/>
+        <mapping resource="Country.hbm.xml"/>
+
     </session-factory>
 
 

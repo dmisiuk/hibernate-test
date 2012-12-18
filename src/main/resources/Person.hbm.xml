@@ -6,9 +6,10 @@
         default-lazy="false"
         default-cascade="all"
         >
-    <class name="by.minsler.hibernate.bean.Person" table="T_PERSON" lazy="false" mutable="true">
-        <id name="id" type="int" column="F_ID" access="property">
+    <class name="by.minsler.hibernate.bean.Person" table="T_PERSON" lazy="false">
+        <id name="personId">
             <generator class="native">
+                <param name="sequense">T_PERSON_SEQ</param>
             </generator>
         </id>
         <property name="name" column="F_NAME" type="string" access="property"/>
@@ -24,6 +25,11 @@
             <property name="city" column="F_WORK_CITY"/>
             <property name="street" column="F_WORK_STREET"/>
         </component>
+
+        <one-to-one name="passport"
+                    class="by.minsler.hibernate.bean.Passport">
+        </one-to-one>
+        <many-to-one name="country" class="by.minsler.hibernate.bean.Country" fetch="select" column="F_COUNTRY"/>
     </class>
 
 </hibernate-mapping>

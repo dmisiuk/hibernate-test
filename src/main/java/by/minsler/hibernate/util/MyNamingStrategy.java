@@ -11,11 +11,11 @@ public class MyNamingStrategy extends DefaultNamingStrategy {
 
     @Override
     public String classToTableName(String className) {
-        return "TT_" + super.classToTableName(className);    //To change body of overridden methods use File | Settings | File Templates.
+        return "T_" + super.classToTableName(className);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     @Override
     public String propertyToColumnName(String propertyName) {
-        return "FF_" + super.propertyToColumnName(propertyName);    //To change body of overridden methods use File | Settings | File Templates.
+        return "F_" + super.propertyToColumnName(propertyName);    //To change body of overridden methods use File | Settings | File Templates.
     }
 }

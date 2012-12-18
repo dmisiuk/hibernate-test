@@ -32,9 +32,10 @@ public class HibernateUtil {
     public Session getSession() {
         Session session = (Session) sessions.get();
         if (session == null) {
+            session = sf.openSession();
             sessions.set(session);
         }
-        return sf.openSession();
+        return session;
     }
 
 }

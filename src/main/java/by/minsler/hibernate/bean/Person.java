@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 public class Person implements Serializable {
 
-    private Integer id;
+    private Long personId;
 
     private String name;
 
@@ -19,18 +19,21 @@ public class Person implements Serializable {
 
     private Integer age;
 
+    private Country country;
+
     private Address homeAddress;
     private Address workAddress;
+    private Passport passport;
 
     public Person() {
     }
 
-    public Integer getId() {
-        return id;
+    public Long getPersonId() {
+        return personId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setPersonId(Long personId) {
+        this.personId = personId;
     }
 
     public String getName() {
@@ -58,6 +61,14 @@ public class Person implements Serializable {
     }
 
 
+    public Passport getPassport() {
+        return passport;
+    }
+
+    public void setPassport(Passport passport) {
+        this.passport = passport;
+    }
+
     public Address getHomeAddress() {
         return homeAddress;
     }
@@ -74,6 +85,15 @@ public class Person implements Serializable {
         this.workAddress = workAddress;
     }
 
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,9 +102,11 @@ public class Person implements Serializable {
         Person person = (Person) o;
 
         if (age != null ? !age.equals(person.age) : person.age != null) return false;
+        if (country != null ? !country.equals(person.country) : person.country != null) return false;
         if (homeAddress != null ? !homeAddress.equals(person.homeAddress) : person.homeAddress != null) return false;
-        if (id != null ? !id.equals(person.id) : person.id != null) return false;
         if (name != null ? !name.equals(person.name) : person.name != null) return false;
+        if (passport != null ? !passport.equals(person.passport) : person.passport != null) return false;
+        if (personId != null ? !personId.equals(person.personId) : person.personId != null) return false;
         if (surname != null ? !surname.equals(person.surname) : person.surname != null) return false;
         if (workAddress != null ? !workAddress.equals(person.workAddress) : person.workAddress != null) return false;
 
@@ -93,24 +115,28 @@ public class Person implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = personId != null ? personId.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
         result = 31 * result + (age != null ? age.hashCode() : 0);
+        result = 31 * result + (country != null ? country.hashCode() : 0);
         result = 31 * result + (homeAddress != null ? homeAddress.hashCode() : 0);
         result = 31 * result + (workAddress != null ? workAddress.hashCode() : 0);
+        result = 31 * result + (passport != null ? passport.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
         return "Person{" +
-                "id=" + id +
+                "personId=" + personId +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", age=" + age +
+                ", country=" + country +
                 ", homeAddress=" + homeAddress +
                 ", workAddress=" + workAddress +
+                ", passport=" + passport +
                 '}';
     }
 }

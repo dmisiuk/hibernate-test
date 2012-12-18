@@ -8,7 +8,9 @@ import by.minsler.hibernate.dao.DaoException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,16 +21,18 @@ import java.util.List;
  */
 public class Main {
 
-    private Dao dao;
+    private Dao personDao;
     private Dao productDao;
     private Dao penDao;
     private Dao bookDao;
+    private Dao countryDao;
 
     public Main() {
-        dao = new BaseDao(Person.class);
+        personDao = new BaseDao(Person.class);
         productDao = new BaseDao(Product.class);
         penDao = new BaseDao(Pen.class);
         bookDao = new BaseDao(Book.class);
+        countryDao = new BaseDao(Country.class);
     }
 
     public static void main(String[] args) throws IOException, DaoException {
@@ -50,6 +54,8 @@ public class Main {
                 "cp - for crate product\n" +
                 "cpen - for create pen\n" +
                 "cbook - for create book\n" +
+                "cc - for create country\n" +
+                "ac - for read all countries\n" +
                 "ap - for read all product\n" +
                 "e - for exit";
 
@@ -113,8 +119,28 @@ public class Main {
                 m.createDeletePerson(bufferRead);
                 continue;
             }
+            if ("cc".equals(operation)) {
+                m.creatCountry(bufferRead);
+                continue;
+            }
+
+            if ("ac".equals(operation)) {
+                m.readAllCountries();
+                continue;
+            }
+
+            if ("p_to_c".equals(operation)) {
+
+            }
 
 
+        }
+    }
+
+    private void readAllCountries() throws DaoException {
+        List<Country> countries = (List<Country>) countryDao.readAll();
+        for (Country c : countries) {
+            System.out.println(c);
         }
     }
 
@@ -125,7 +151,7 @@ public class Main {
 
         String idString = br.readLine();
         Integer id = Integer.valueOf(idString.trim());
-        Person person = (Person) dao.load(id);
+        Person person = (Person) personDao.load(id);
 
         System.out.println(person);
 
@@ -148,7 +174,7 @@ public class Main {
         person.setName(atr[1]);
         person.setSurname(atr[2]);
         person.setAge(Integer.valueOf(atr[3]));
-        dao.update(person);
+        personDao.update(person);
         System.out.println(person);
     }
 
@@ -160,7 +186,7 @@ public class Main {
         String idString = br.readLine();
         Integer id = Integer.valueOf(idString.trim());
 
-        dao.delete(id);
+        personDao.delete(id);
 
     }
 
@@ -171,13 +197,13 @@ public class Main {
 
         String idString = br.readLine();
         Integer id = Integer.valueOf(idString.trim());
-        Person person = (Person) dao.read(id);
+        Person person = (Person) personDao.read(id);
 
         System.out.println(person);
     }
 
     private void readAllPersons() throws DaoException {
-        List<Person> persons = (List<Person>) dao.readAll();
+        List<Person> persons = (List<Person>) personDao.readAll();
         for (Person p : persons) {
             System.out.println(p);
         }
@@ -194,8 +220,8 @@ public class Main {
     private void createPerson(BufferedReader br) throws IOException, DaoException {
         Person person = new Person();
 
-        System.out.println("please enter person attribute(name, surname,age,home_sity, home_street, work_sity, work_street) separated by comma \n" +
-                "example: dzmitry,misiuk,25,minsk,lesnaia,minsk,skoriny");
+        System.out.println("please enter person attribute(name, surname,age,home_sity, home_street, work_sity, work_street,passport_number,country_id) separated by comma \n" +
+                "example: dzmitry,misiuk,25,minsk,lesnaia,minsk,skoriny,passport_number,country_id");
 
         String personString = br.readLine();
         String atr[] = personString.split("\\s*,\\s*");
@@ -212,11 +238,30 @@ public class Main {
         workAddress.setCity(atr[5]);
         workAddress.setStreet(atr[6]);
 
+        Passport passport = new Passport();
+        passport.setNumber(atr[7]);
+        person.setPassport(passport);
+
+        passport.setPerson(person);
+
+
         person.setHomeAddress(homeAddress);
         person.setWorkAddress(workAddress);
-        dao.create(person);
-    }
 
+        int country_id = Integer.parseInt(atr[8]);
+        Country country = (Country) countryDao.read(country_id);
+        System.out.println("person set: " + country.getPersonSet());
+        Set<Person> personSet = country.getPersonSet();
+        if (personSet == null) {
+            personSet = new HashSet<Person>();
+            country.setPersonSet(personSet);
+        }
+
+        person.setCountry(country);
+        country.getPersonSet().add(person);
+
+        personDao.create(person);
+    }
 
     private void createDeletePerson(BufferedReader br) throws IOException, DaoException {
         Person person = new Person();
@@ -230,7 +275,7 @@ public class Main {
         person.setName(atr[0]);
         person.setSurname(atr[1]);
         person.setAge(Integer.parseInt(atr[2]));
-        dao.createDelete(person);
+        personDao.createDelete(person);
     }
 
     private void createProduct(BufferedReader br) throws IOException, DaoException {
@@ -304,5 +349,19 @@ public class Main {
 
         bookDao.create(book);
 
+    }
+
+    private void creatCountry(BufferedReader bufferRead) throws IOException, DaoException {
+        System.out.println("please enter country  attribute(name) separated by comma \n" +
+                "example: belarus");
+
+        String productString = bufferRead.readLine();
+        String atr[] = productString.split("\\s*,\\s*");
+
+        String name = atr[0];
+        Country country = new Country();
+        country.setName(name);
+
+        countryDao.create(country);
     }
 }
