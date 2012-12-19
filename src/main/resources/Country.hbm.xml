@@ -14,7 +14,7 @@
         <set name="personSet" table="T_PERSON"
              inverse="true" lazy="false" fetch="select">
             <key column="F_COUNTRY" not-null="true"/>
-            <one-to-many class="by.minsler.hibernate.bean.Passport"/>
+            <one-to-many class="by.minsler.hibernate.bean.Person"/>
         </set>
 
     </class>

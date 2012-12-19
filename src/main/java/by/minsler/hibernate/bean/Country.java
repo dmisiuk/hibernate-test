@@ -63,7 +63,6 @@ public class Country implements Serializable {
     public String toString() {
         return "Country{" +
                 "id=" + id +
-                ", personSet=" + personSet +
                 ", name='" + name + '\'' +
                 '}';
     }
