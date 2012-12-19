@@ -8,7 +8,7 @@
         >
     <class name="by.minsler.hibernate.bean.Person" table="T_PERSON" lazy="false">
         <id name="personId">
-            <generator class="native">
+            <generator class="sequence">
                 <param name="sequense">T_PERSON_SEQ</param>
             </generator>
         </id>
@@ -26,10 +26,22 @@
             <property name="street" column="F_WORK_STREET"/>
         </component>
 
-        <one-to-one name="passport"
-                    class="by.minsler.hibernate.bean.Passport">
-        </one-to-one>
-        <many-to-one name="country" class="by.minsler.hibernate.bean.Country" fetch="select" column="F_COUNTRY"/>
+        <set name="passportSet"
+             inverse="true" lazy="false" fetch="select">
+            <key column="F_PERSON" not-null="true"/>
+            <one-to-many class="by.minsler.hibernate.bean.Passport"/>
+        </set>
+
+        <set name="countrySet" table="COUNTRY_PERSON" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="PERSON_ID" not-null="true" />
+            </key>
+            <many-to-many entity-name="by.minsler.hibernate.bean.Country">
+                <column name="COUNTRY_ID" not-null="true" />
+            </many-to-many>
+        </set>
+
+
     </class>
 
 </hibernate-mapping>

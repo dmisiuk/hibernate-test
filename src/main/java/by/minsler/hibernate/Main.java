@@ -8,7 +8,6 @@ import by.minsler.hibernate.dao.DaoException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -26,6 +25,7 @@ public class Main {
     private Dao penDao;
     private Dao bookDao;
     private Dao countryDao;
+    private Dao passportDao;
 
     public Main() {
         personDao = new BaseDao(Person.class);
@@ -33,6 +33,7 @@ public class Main {
         penDao = new BaseDao(Pen.class);
         bookDao = new BaseDao(Book.class);
         countryDao = new BaseDao(Country.class);
+        passportDao = new BaseDao(Passport.class);
     }
 
     public static void main(String[] args) throws IOException, DaoException {
@@ -54,14 +55,15 @@ public class Main {
                 "cp - for crate product\n" +
                 "cpen - for create pen\n" +
                 "cbook - for create book\n" +
-                "cc - for create country\n" +
+                "ccountry - for create country\n" +
+                "cpas - for create passport for person\n" +
+                "apas - for read all  passports\n" +
+                "p_to_c - for add person to country\n" +
                 "ac - for read all countries\n" +
                 "ap - for read all product\n" +
                 "e - for exit";
 
         String operation = null;
-
-        System.out.println(menu);
 
         BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 
@@ -119,8 +121,23 @@ public class Main {
                 m.createDeletePerson(bufferRead);
                 continue;
             }
-            if ("cc".equals(operation)) {
+            if ("ccountry".equals(operation)) {
                 m.creatCountry(bufferRead);
+                continue;
+            }
+
+            if ("cpas".equals(operation)) {
+                m.createPassportForPerson(bufferRead);
+                continue;
+            }
+
+            if ("apas".equals(operation)) {
+                m.readAllPassports();
+                continue;
+            }
+
+            if ("acountry".equals(operation)) {
+                m.readAllCountries();
                 continue;
             }
 
@@ -130,12 +147,65 @@ public class Main {
             }
 
             if ("p_to_c".equals(operation)) {
-
+                m.addPersonToCountry(bufferRead);
             }
 
 
         }
     }
+
+    private void createPassportForPerson(BufferedReader bufferRead) throws IOException, DaoException {
+
+        System.out.println("please enter passport attribute(person_id, passport_number) separated by comma \n" +
+                "example: 1,23423423");
+
+        String personString = bufferRead.readLine();
+        String atr[] = personString.split("\\s*,\\s*");
+
+        int personId = Integer.parseInt(atr[0]);
+        String passportNumber = atr[1];
+
+        Person person = (Person) personDao.read(personId);
+
+        Passport passport = new Passport();
+        passport.setNumber(passportNumber);
+        passport.setPerson(person);
+        Set<Passport> passports = person.getPassportSet();
+
+        passports.add(passport);
+
+        personDao.update(person);
+    }
+
+
+    private void addPersonToCountry(BufferedReader bufferRead) throws IOException, DaoException {
+
+        System.out.println("please enter person,country attributes(person_id, countryid) separated by comma \n" +
+                "example: 1,3");
+
+        String personString = bufferRead.readLine();
+        String atr[] = personString.split("\\s*,\\s*");
+
+        int personId = Integer.parseInt(atr[0]);
+        int countryId = Integer.parseInt(atr[1]);
+
+        Person person = (Person) personDao.read(personId);
+        Country country = (Country) countryDao.read(countryId);
+
+        country.getPersonSet().add(person);
+        person.getCountrySet().add(country);
+
+        personDao.update(person);
+    }
+
+
+    private void readAllPassports() throws DaoException {
+        List<Passport> passports = (List<Passport>) passportDao.readAll();
+        for (Passport p : passports) {
+            System.out.println(p);
+        }
+    }
+
 
     private void readAllCountries() throws DaoException {
         List<Country> countries = (List<Country>) countryDao.readAll();
@@ -220,8 +290,8 @@ public class Main {
     private void createPerson(BufferedReader br) throws IOException, DaoException {
         Person person = new Person();
 
-        System.out.println("please enter person attribute(name, surname,age,home_sity, home_street, work_sity, work_street,passport_number,country_id) separated by comma \n" +
-                "example: dzmitry,misiuk,25,minsk,lesnaia,minsk,skoriny,passport_number,country_id");
+        System.out.println("please enter person attribute(name, surname,age,home_sity, home_street, work_sity, work_street) separated by comma \n" +
+                "example: dzmitry,misiuk,25,minsk,lesnaia,minsk,skoriny");
 
         String personString = br.readLine();
         String atr[] = personString.split("\\s*,\\s*");
@@ -238,27 +308,20 @@ public class Main {
         workAddress.setCity(atr[5]);
         workAddress.setStreet(atr[6]);
 
-        Passport passport = new Passport();
-        passport.setNumber(atr[7]);
-        person.setPassport(passport);
-
-        passport.setPerson(person);
-
-
         person.setHomeAddress(homeAddress);
         person.setWorkAddress(workAddress);
 
-        int country_id = Integer.parseInt(atr[8]);
-        Country country = (Country) countryDao.read(country_id);
-        System.out.println("person set: " + country.getPersonSet());
-        Set<Person> personSet = country.getPersonSet();
-        if (personSet == null) {
-            personSet = new HashSet<Person>();
-            country.setPersonSet(personSet);
-        }
-
-        person.setCountry(country);
-        country.getPersonSet().add(person);
+//        int country_id = Integer.parseInt(atr[8]);
+//        Country country = (Country) countryDao.read(country_id);
+//        System.out.println("person set: " + country.getPersonSet());
+//        Set<Person> personSet = country.getPersonSet();
+//        if (personSet == null) {
+//            personSet = new HashSet<Person>();
+//            country.setPersonSet(personSet);
+//        }
+//
+//        person.setCountry(country);
+//        country.getPersonSet().add(person);
 
         personDao.create(person);
     }

@@ -1,6 +1,7 @@
 package by.minsler.hibernate.bean;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -14,6 +15,10 @@ public class Country implements Serializable {
     private Set<Person> personSet;
 
     private String name;
+
+    public Country() {
+        personSet = new HashSet<Person>();
+    }
 
     public Integer getId() {
         return id;

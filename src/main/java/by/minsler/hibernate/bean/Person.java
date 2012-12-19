@@ -1,6 +1,8 @@
 package by.minsler.hibernate.bean;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,7 +13,7 @@ import java.io.Serializable;
  */
 public class Person implements Serializable {
 
-    private Long personId;
+    private Integer personId;
 
     private String name;
 
@@ -19,20 +21,22 @@ public class Person implements Serializable {
 
     private Integer age;
 
-    private Country country;
+    private Set<Country> countrySet;
 
     private Address homeAddress;
     private Address workAddress;
-    private Passport passport;
+    private Set<Passport> passportSet;
 
     public Person() {
+        passportSet = new HashSet<Passport>();
+        countrySet = new HashSet<Country>();
     }
 
-    public Long getPersonId() {
+    public Integer getPersonId() {
         return personId;
     }
 
-    public void setPersonId(Long personId) {
+    public void setPersonId(Integer personId) {
         this.personId = personId;
     }
 
@@ -61,14 +65,6 @@ public class Person implements Serializable {
     }
 
 
-    public Passport getPassport() {
-        return passport;
-    }
-
-    public void setPassport(Passport passport) {
-        this.passport = passport;
-    }
-
     public Address getHomeAddress() {
         return homeAddress;
     }
@@ -86,12 +82,20 @@ public class Person implements Serializable {
     }
 
 
-    public Country getCountry() {
-        return country;
+    public Set<Country> getCountrySet() {
+        return countrySet;
     }
 
-    public void setCountry(Country country) {
-        this.country = country;
+    public void setCountrySet(Set<Country> countrySet) {
+        this.countrySet = countrySet;
+    }
+
+    public Set<Passport> getPassportSet() {
+        return passportSet;
+    }
+
+    public void setPassportSet(Set<Passport> passportSet) {
+        this.passportSet = passportSet;
     }
 
     @Override
@@ -102,10 +106,10 @@ public class Person implements Serializable {
         Person person = (Person) o;
 
         if (age != null ? !age.equals(person.age) : person.age != null) return false;
-        if (country != null ? !country.equals(person.country) : person.country != null) return false;
+        if (countrySet != null ? !countrySet.equals(person.countrySet) : person.countrySet != null) return false;
         if (homeAddress != null ? !homeAddress.equals(person.homeAddress) : person.homeAddress != null) return false;
         if (name != null ? !name.equals(person.name) : person.name != null) return false;
-        if (passport != null ? !passport.equals(person.passport) : person.passport != null) return false;
+        if (passportSet != null ? !passportSet.equals(person.passportSet) : person.passportSet != null) return false;
         if (personId != null ? !personId.equals(person.personId) : person.personId != null) return false;
         if (surname != null ? !surname.equals(person.surname) : person.surname != null) return false;
         if (workAddress != null ? !workAddress.equals(person.workAddress) : person.workAddress != null) return false;
@@ -119,10 +123,10 @@ public class Person implements Serializable {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
         result = 31 * result + (age != null ? age.hashCode() : 0);
-        result = 31 * result + (country != null ? country.hashCode() : 0);
+        result = 31 * result + (countrySet != null ? countrySet.hashCode() : 0);
         result = 31 * result + (homeAddress != null ? homeAddress.hashCode() : 0);
         result = 31 * result + (workAddress != null ? workAddress.hashCode() : 0);
-        result = 31 * result + (passport != null ? passport.hashCode() : 0);
+        result = 31 * result + (passportSet != null ? passportSet.hashCode() : 0);
         return result;
     }
 
@@ -133,10 +137,10 @@ public class Person implements Serializable {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", age=" + age +
-                ", country=" + country +
+                ", countrySet=" + countrySet +
                 ", homeAddress=" + homeAddress +
                 ", workAddress=" + workAddress +
-                ", passport=" + passport +
+                ", passportSet=" + passportSet +
                 '}';
     }
 }

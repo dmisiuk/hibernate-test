@@ -7,7 +7,7 @@ package by.minsler.hibernate.bean;
  */
 public class Passport {
 
-    private Long personId;
+    private Integer id;
 
     private String number;
 
@@ -16,12 +16,12 @@ public class Passport {
     public Passport() {
     }
 
-    public Long getPersonId() {
-        return personId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setPersonId(Long personId) {
-        this.personId = personId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNumber() {
@@ -48,14 +48,14 @@ public class Passport {
         Passport passport = (Passport) o;
 
         if (number != null ? !number.equals(passport.number) : passport.number != null) return false;
-        if (personId != null ? !personId.equals(passport.personId) : passport.personId != null) return false;
+        if (id != null ? !id.equals(passport.id) : passport.id != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = personId != null ? personId.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (number != null ? number.hashCode() : 0);
         return result;
     }
@@ -63,8 +63,10 @@ public class Passport {
     @Override
     public String toString() {
         return "Passport{" +
-                "personId=" + personId +
+                "id=" + id +
                 ", number='" + number + '\'' +
+                ",person_name=" + person.getName() +
+                ",person_surname=" + person.getSurname() +
                 '}';
     }
 }

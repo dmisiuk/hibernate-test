@@ -4,15 +4,14 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class name="by.minsler.hibernate.bean.Passport" table="T_PASSPORT" lazy="false">
-        <id name="personId">
-            <generator class="foreign">
-                <param name="property">person</param>
+        <id name="id">
+            <generator class="sequence">
+                <param name="sequense">T_PASSPORT_SEQ</param>
             </generator>
         </id>
 
-        <one-to-one name="person" class="by.minsler.hibernate.bean.Person"
-                    constrained="true"></one-to-one>
-
         <property name="number"/>
+
+        <many-to-one name="person" class="by.minsler.hibernate.bean.Person" fetch="select" column="F_PERSON"/>
     </class>
 </hibernate-mapping>

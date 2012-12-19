@@ -5,16 +5,21 @@
 <hibernate-mapping>
     <class name="by.minsler.hibernate.bean.Country" lazy="false">
         <id name="id">
-            <generator class="native">
+            <generator class="sequence">
                 <param name="sequence">T_COUNTRY_SEQ</param>
             </generator>
         </id>
         <property name="name"/>
 
-        <set name="personSet" table="T_PERSON"
-             inverse="true" lazy="false" fetch="select">
-            <key column="F_COUNTRY" not-null="true"/>
-            <one-to-many class="by.minsler.hibernate.bean.Person"/>
+
+        <set name="personSet" table="COUNTRY_PERSON"
+             inverse="false" lazy="false" fetch="select" cascade="all">
+            <key>
+                <column name="COUNTRY_ID" not-null="true"/>
+            </key>
+            <many-to-many entity-name="by.minsler.hibernate.bean.Person">
+                <column name="PERSON_ID" not-null="true"/>
+            </many-to-many>
         </set>
 
     </class>
