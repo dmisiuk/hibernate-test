@@ -2,6 +2,7 @@ package by.minsler.hibernate.util;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 
 public class HibernateUtil {
@@ -15,7 +16,7 @@ public class HibernateUtil {
     private HibernateUtil() throws ExceptionInInitializerError {
         try {
             // Create the SessionFactory from hibernate.cfg.xml
-            Configuration config = new Configuration();
+            Configuration config = new AnnotationConfiguration();
             config.setNamingStrategy(new MyNamingStrategy());
             this.sf = config.configure().buildSessionFactory();
         } catch (Throwable ex) {

@@ -47,7 +47,7 @@ public class Book extends Product {
                 ", length=" + super.getLength() +
                 ", height=" + super.getHeight() +
                 ", volume=" + super.getVolume() +
-                ", internalId=" + super.getInternalId() +
+                //", internalId=" + super.getInternalId() +
                 ",pages= " + this.getPages() +
                 '}';
     }

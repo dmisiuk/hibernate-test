@@ -1,16 +1,40 @@
 package by.minsler.hibernate.bean;
 
+import javax.persistence.*;
+
 /**
  * User: minsler
  * Date: 12/15/12
  * Time: 9:11 PM
  */
+
+//<class name="by.minsler.hibernate.bean.Passport" table="T_PASSPORT" lazy="false">
+//<id name="id">
+//<generator class="sequence">
+//<param name="sequense">T_PASSPORT_SEQ</param>
+//</generator>
+//</id>
+//
+//<property name="number"/>
+//
+//<many-to-one name="person" class="by.minsler.hibernate.bean.Person" fetch="select" column="F_PERSON"/>
+//
+
+@Entity
 public class Passport {
 
+    @Id
+    @SequenceGenerator(
+            name = "PK",
+            sequenceName = "T_PASSPORT_SEQ"
+    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PK")
     private Integer id;
 
     private String number;
 
+    @ManyToOne
+    @JoinColumn
     private Person person;
 
     public Passport() {

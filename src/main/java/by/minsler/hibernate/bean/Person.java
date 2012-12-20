@@ -1,5 +1,6 @@
 package by.minsler.hibernate.bean;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,8 +12,52 @@ import java.util.Set;
  * Time: 9:15 PM
  * To change this template use File | Settings | File Templates.
  */
+
+//<hibernate-mapping
+//default-lazy="false"
+//default-cascade="all"
+//        >
+//<class name="by.minsler.hibernate.bean.Person" table="T_PERSON" lazy="false">
+//<id name="personId">
+//<generator class="sequence">
+//<param name="sequense">T_PERSON_SEQ</param>
+//</generator>
+//</id>
+//<property name="name" column="F_NAME" type="string" access="property"/>
+//<property name="surname" column="F_SURNAME" type="string" access="property"/>
+//<property name="age" column="F_AGE" type="int" access="property"/>
+
+//
+//<set name="passportSet"
+//        inverse="true" lazy="false" fetch="select">
+//<key column="F_PERSON" not-null="true"/>
+//<one-to-many class="by.minsler.hibernate.bean.Passport"/>
+//</set>
+//
+//<set name="countrySet" table="COUNTRY_PERSON" inverse="true" lazy="false" fetch="select">
+//<key>
+//<column name="PERSON_ID" not-null="true" />
+//</key>
+//<many-to-many entity-name="by.minsler.hibernate.bean.Country">
+//<column name="COUNTRY_ID" not-null="true" />
+//</many-to-many>
+//</set>
+//
+//
+//</class>
+//
+//</hibernate-mapping>
+
+
+@Entity
 public class Person implements Serializable {
 
+    @Id
+    @SequenceGenerator(
+            name = "PK",
+            sequenceName = "T_PERSON_SEQ"
+    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PK")
     private Integer personId;
 
     private String name;
@@ -21,10 +66,17 @@ public class Person implements Serializable {
 
     private Integer age;
 
+    @ManyToMany(
+            cascade = CascadeType.ALL
+    )
+    @JoinTable(
+            name = "PERSON_COUNTRY",
+            joinColumns = {@JoinColumn(name = "F_PERSON_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "F_COUNTRY_ID")}
+    )
     private Set<Country> countrySet;
 
-    private Address homeAddress;
-    private Address workAddress;
+    @OneToMany(mappedBy = "person")
     private Set<Passport> passportSet;
 
     public Person() {
@@ -65,23 +117,6 @@ public class Person implements Serializable {
     }
 
 
-    public Address getHomeAddress() {
-        return homeAddress;
-    }
-
-    public void setHomeAddress(Address homeAddress) {
-        this.homeAddress = homeAddress;
-    }
-
-    public Address getWorkAddress() {
-        return workAddress;
-    }
-
-    public void setWorkAddress(Address workAddress) {
-        this.workAddress = workAddress;
-    }
-
-
     public Set<Country> getCountrySet() {
         return countrySet;
     }
@@ -107,12 +142,11 @@ public class Person implements Serializable {
 
         if (age != null ? !age.equals(person.age) : person.age != null) return false;
         if (countrySet != null ? !countrySet.equals(person.countrySet) : person.countrySet != null) return false;
-        if (homeAddress != null ? !homeAddress.equals(person.homeAddress) : person.homeAddress != null) return false;
+
         if (name != null ? !name.equals(person.name) : person.name != null) return false;
         if (passportSet != null ? !passportSet.equals(person.passportSet) : person.passportSet != null) return false;
         if (personId != null ? !personId.equals(person.personId) : person.personId != null) return false;
         if (surname != null ? !surname.equals(person.surname) : person.surname != null) return false;
-        if (workAddress != null ? !workAddress.equals(person.workAddress) : person.workAddress != null) return false;
 
         return true;
     }
@@ -124,8 +158,6 @@ public class Person implements Serializable {
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
         result = 31 * result + (age != null ? age.hashCode() : 0);
         result = 31 * result + (countrySet != null ? countrySet.hashCode() : 0);
-        result = 31 * result + (homeAddress != null ? homeAddress.hashCode() : 0);
-        result = 31 * result + (workAddress != null ? workAddress.hashCode() : 0);
         result = 31 * result + (passportSet != null ? passportSet.hashCode() : 0);
         return result;
     }
@@ -138,8 +170,6 @@ public class Person implements Serializable {
                 ", surname='" + surname + '\'' +
                 ", age=" + age +
                 ", countrySet=" + countrySet +
-                ", homeAddress=" + homeAddress +
-                ", workAddress=" + workAddress +
                 ", passportSet=" + passportSet +
                 '}';
     }

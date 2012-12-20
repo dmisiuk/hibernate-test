@@ -17,7 +17,7 @@ public class Pen extends Product {
         this.color = color;
     }
 
-@Override
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -46,7 +46,7 @@ public class Pen extends Product {
                 ", length=" + super.getLength() +
                 ", height=" + super.getHeight() +
                 ", volume=" + super.getVolume() +
-                ", internalId=" + super.getInternalId() +
+                //   ", internalId=" + super.getInternalId() +
                 ",color= " + this.getColor() +
                 '}';
     }

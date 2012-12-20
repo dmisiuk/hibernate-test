@@ -1,5 +1,8 @@
 package by.minsler.hibernate.bean;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -9,37 +12,35 @@ import java.io.Serializable;
  * Time: 9:15 PM
  * To change this template use File | Settings | File Templates.
  */
+
+@Entity
 public class Product implements Serializable {
 
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
     private String name;
 
     private Integer width;
+
     private Integer length;
+
     private Integer height;
+
+    @Transient
     private Integer volume;
-    private Integer internalId;
+
+    @OneToOne(
+            mappedBy = "product",
+            cascade = CascadeType.ALL
+    )
+    private ExternalId externalId;
 
     public Product() {
     }
 
-
-    public Product(String id, String name, Integer width, Integer length, Integer height, Integer volume) {
-        this.id = id;
-        this.name = name;
-        this.width = width;
-        this.length = length;
-        this.height = height;
-        this.volume = volume;
-    }
-
-    public Product(String name, Integer width, Integer length, Integer height) {
-        this.name = name;
-        this.width = width;
-        this.length = length;
-        this.height = height;
-    }
 
     public String getId() {
         return id;
@@ -56,15 +57,6 @@ public class Product implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
-    public Integer getInternalId() {
-        return internalId;
-    }
-
-    public void setInternalId(Integer internalId) {
-        this.internalId = internalId;
-    }
-
 
     public Integer getWidth() {
         return width;
@@ -98,6 +90,14 @@ public class Product implements Serializable {
         this.volume = volume;
     }
 
+    public ExternalId getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(ExternalId externalId) {
+        this.externalId = externalId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -105,9 +105,9 @@ public class Product implements Serializable {
 
         Product product = (Product) o;
 
+        if (externalId != null ? !externalId.equals(product.externalId) : product.externalId != null) return false;
         if (height != null ? !height.equals(product.height) : product.height != null) return false;
         if (id != null ? !id.equals(product.id) : product.id != null) return false;
-        if (internalId != null ? !internalId.equals(product.internalId) : product.internalId != null) return false;
         if (length != null ? !length.equals(product.length) : product.length != null) return false;
         if (name != null ? !name.equals(product.name) : product.name != null) return false;
         if (volume != null ? !volume.equals(product.volume) : product.volume != null) return false;
@@ -124,20 +124,20 @@ public class Product implements Serializable {
         result = 31 * result + (length != null ? length.hashCode() : 0);
         result = 31 * result + (height != null ? height.hashCode() : 0);
         result = 31 * result + (volume != null ? volume.hashCode() : 0);
-        result = 31 * result + (internalId != null ? internalId.hashCode() : 0);
+        result = 31 * result + (externalId != null ? externalId.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
         return "Product{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", width=" + width +
                 ", length=" + length +
                 ", height=" + height +
                 ", volume=" + volume +
-                ", internalId=" + internalId +
+                ", externalId=" + externalId +
                 '}';
     }
 }

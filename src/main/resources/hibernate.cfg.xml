@@ -40,14 +40,14 @@
             oracle.jdbc.OracleDriver
         </property>
 
-        <!--<property name="hibernate.connection.url">-->
-        <!--jdbc:oracle:thin:@192.168.37.39:1521:xe-->
-        <!--</property>-->
-
-
         <property name="hibernate.connection.url">
-            jdbc:oracle:thin:@192.168.0.48:1521:xe
+            jdbc:oracle:thin:@192.168.37.39:1521:xe
         </property>
+
+
+        <!--<property name="hibernate.connection.url">-->
+        <!--jdbc:oracle:thin:@192.168.0.48:1521:xe-->
+        <!--</property>-->
 
 
         <property name="hibernate.connection.username">hr</property>
@@ -60,10 +60,19 @@
         <property name="show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">create-drop</property>
         <!-- Mapping files -->
-        <mapping resource="Person.hbm.xml"/>
-        <mapping resource="Product.hbm.xml"/>
-        <mapping resource="Passport.hbm.xml"/>
-        <mapping resource="Country.hbm.xml"/>
+        <!--<mapping resource="Person.hbm.xml"/>-->
+
+        <!--<mapping resource="Passport.hbm.xml"/>-->
+        <!--<mapping resource="Country.hbm.xml"/>-->
+
+
+        <mapping class="by.minsler.hibernate.bean.ExternalId"/>
+        <mapping class="by.minsler.hibernate.bean.Product"/>
+        <mapping class="by.minsler.hibernate.bean.Passport"/>
+        <mapping class="by.minsler.hibernate.bean.Person"/>
+        <mapping class="by.minsler.hibernate.bean.Country"/>
+
+        <!--<mapping resource="Product.hbm.xml"/>-->
 
     </session-factory>
 

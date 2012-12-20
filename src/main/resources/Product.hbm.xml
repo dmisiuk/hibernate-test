@@ -14,17 +14,6 @@
         <property name="length" access="property"/>
         <property name="width" access="property"/>
         <property name="height" access="property"/>
-        <property name="volume" formula="F_WIDTH * F_LENGTH * F_HEIGHT" access="property"/>
-        <property name="internalId" access="property" not-null="true"/>
-
-        <joined-subclass name="by.minsler.hibernate.bean.Book">
-            <key column="F_ID"/>
-            <property name="pages" access="property"/>
-        </joined-subclass>
-        <joined-subclass name="by.minsler.hibernate.bean.Pen">
-            <key column="F_ID"/>
-            <property name="color" access="property"/>
-        </joined-subclass>
 
     </class>
 </hibernate-mapping>

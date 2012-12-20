@@ -290,8 +290,8 @@ public class Main {
     private void createPerson(BufferedReader br) throws IOException, DaoException {
         Person person = new Person();
 
-        System.out.println("please enter person attribute(name, surname,age,home_sity, home_street, work_sity, work_street) separated by comma \n" +
-                "example: dzmitry,misiuk,25,minsk,lesnaia,minsk,skoriny");
+        System.out.println("please enter person attribute(name, surname,age) separated by comma \n" +
+                "example: dzmitry,misiuk,25");
 
         String personString = br.readLine();
         String atr[] = personString.split("\\s*,\\s*");
@@ -300,16 +300,6 @@ public class Main {
         person.setSurname(atr[1]);
         person.setAge(Integer.parseInt(atr[2]));
 
-        Address homeAddress = new Address();
-        homeAddress.setCity(atr[3]);
-        homeAddress.setStreet(atr[4]);
-
-        Address workAddress = new Address();
-        workAddress.setCity(atr[5]);
-        workAddress.setStreet(atr[6]);
-
-        person.setHomeAddress(homeAddress);
-        person.setWorkAddress(workAddress);
 
 //        int country_id = Integer.parseInt(atr[8]);
 //        Country country = (Country) countryDao.read(country_id);
@@ -344,8 +334,8 @@ public class Main {
     private void createProduct(BufferedReader br) throws IOException, DaoException {
 
 
-        System.out.println("please enter product attribute(name,length, width, height,internalId) separated by comma \n" +
-                "example: bag,2,45,5,27");
+        System.out.println("please enter product attribute(name,length, width, height,value_of_externalId) separated by comma \n" +
+                "example: bag,2,45,5,272342");
 
         String productString = br.readLine();
         String atr[] = productString.split("\\s*,\\s*");
@@ -354,10 +344,19 @@ public class Main {
         int length = Integer.parseInt(atr[1]);
         int width = Integer.parseInt(atr[2]);
         int heigth = Integer.parseInt(atr[3]);
-        int internalId = Integer.parseInt(atr[4]);
+        int value = Integer.parseInt(atr[4]);
 
-        Product product = new Product(name, width, length, heigth);
-        product.setInternalId(internalId);
+        Product product = new Product();
+        product.setName(name);
+        product.setLength(length);
+        product.setWidth(width);
+        product.setHeight(heigth);
+
+        ExternalId extId = new ExternalId();
+        extId.setValue(value);
+        extId.setProduct(product);
+
+        product.setExternalId(extId);
 
         productDao.create(product);
     }
@@ -381,7 +380,7 @@ public class Main {
         pen.setLength(length);
         pen.setWidth(width);
         pen.setHeight(heigth);
-        pen.setInternalId(internalId);
+        // pen.setInternalId(internalId);
         pen.setColor(color);
 
 
@@ -407,7 +406,7 @@ public class Main {
         book.setLength(length);
         book.setWidth(width);
         book.setHeight(heigth);
-        book.setInternalId(internalId);
+        // book.setInternalId(internalId);
         book.setPages(pages);
 
         bookDao.create(book);
